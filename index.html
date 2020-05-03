@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const SELECTION = ['rock', 'paper', 'scissors']
+
+        const computerPlay = function () {
+            return SELECTION[Math.floor(Math.random() * 3)];
+        }
+
+        const playSingleRound = function (playerSelection, pcSelection) {
+            playerSelection = playerSelection.toLowerCase();
+
+            let playerWon = false;
+            let beats = '';
+            if (playerSelection === pcSelection) {
+                return -1;
+            }
+
+            if ((playerSelection === 'rock' || pcSelection === 'rock') && (playerSelection === 'paper' || pcSelection === 'paper')) {
+                playerWon = (playerSelection === 'rock') ? false : true;
+            }
+
+            if ((playerSelection === 'paper' || pcSelection === 'paper') && (playerSelection === 'scissors' || pcSelection === 'scissors')) {
+                playerWon = (playerSelection === 'paper') ? false : true;
+            }
+
+            if ((playerSelection === 'scissors' || pcSelection === 'scissors') && (playerSelection === 'rock' || pcSelection === 'rock')) {
+                playerWon = (playerSelection === 'scissors') ? false : true;
+            }
+
+            return playerWon ? 1 : 0;
+
+        }
+
+        const game = function () {
+            let playerScore = 0;
+            let pcScore = 0;
+            let tieScore = 0;
+            let rounds = 0;
+
+            do {
+                rounds = Number(prompt('Rounds to win?'));
+            }
+            while (isNaN(rounds));
+
+            while (playerScore != rounds && pcScore != rounds) {
+                let playerSelection;
+                let pcSelection = computerPlay();
+                do {
+                    playerSelection = prompt('please select rock paper scissors:');
+                }
+                while (SELECTION.findIndex(x => playerSelection === x) === -1);
+                /*{
+                     alert('Invalid selection pal');
+                }*/
+                let result = playSingleRound(playerSelection, pcSelection);
+
+                if (result === 1) { //user wins
+                    playerScore++;
+                    console.log(`You win! ${playerSelection} ${playerSelection == 'scissors' ? 'beat' : 'beats'} ${pcSelection}`);
+                    alert(`You win! ${playerSelection} ${playerSelection == 'scissors' ? 'beat' : 'beats'} ${pcSelection}`);
+                } else if (result === 0) { //pc wins
+                    pcScore++;
+                    console.log(`You lose! ${pcSelection} ${pcSelection == 'scissors' ? 'beat' : 'beats'} ${playerSelection}`);
+                    alert(`You lose! ${pcSelection} ${pcSelection == 'scissors' ? 'beat' : 'beats'} ${playerSelection}`);
+                } else { //tie
+                    tieScore++;
+                    alert(`Tie! ${pcSelection} and ${playerSelection}`);
+                    console.log(`Tie! ${pcSelection} and ${playerSelection}`);
+                }
+
+            }
+            alert(`Results: Player score ${playerScore} Computer score ${pcScore}`);
+            console.log(`Results: Player score ${playerScore} Computer score ${pcScore}`);
+            if (playerScore > pcScore) {
+                alert(`Player wins!`);
+                console.log(`Player wins!`);
+            }
+            else {
+                alert(`Computer wins!`);
+                console.log(`Computer wins!`);
+            }
+        }
+        game();
+
+    </script>
+</body>
+
+</html>
